@@ -1,12 +1,37 @@
 import { useState } from 'react'
 import './App.css'
 
-import {clsx} from 'clsx'
+import { clsx } from 'clsx'
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
+
+  //state
   const [list, setList] = useState([{ name: "Scratch your balls while coding this app", isChecked: true, id: uuidv4() }])
 
+  //create list element
+  const listElement = list.map((item, index) => {
+    const className = clsx("max-w-[350px] break-words", { "line-through decoration-3 decoration-zinc-700": item.isChecked })
+    return (
+      <li key={index} className='mb-3'>
+        <label className="flex items-center space-x-3 cursor-pointer">
+          <input type="checkbox" name="item" className="form-checkbox h-5 w-5 accent-emerald-400 ms-3"
+            checked={item.isChecked}
+            onChange={() => handleCheck(item.id)}
+          />
+          <span className={className}>{item.name}</span>
+          <div className='ml-auto mr-3'>
+            <button className='bg-amber-400 rounded-md py-1 px-2 cursor-pointer text-black'
+            onClick={() => handleDelete(item.id)}
+            >X</button>
+          </div>
+        </label>
+      </li>
+    )
+  })
+
+
+  //functions
   function addListItem(formData) {
     const formDatas = formData.get("item")
     const newItem = { name: formDatas, isChecked: false, id: uuidv4() }
@@ -15,26 +40,18 @@ function App() {
   }
 
   function handleCheck(id) {
-    setList(prevList => 
-      prevList.map(item => 
-        item.id === id ? {...item, isChecked:!item.isChecked} : item))
+    setList(prevList =>
+      prevList.map(item =>
+        item.id === id ? { ...item, isChecked: !item.isChecked } : item))
   }
 
-  const listElement = list.map((item, index) => {
-    const className =clsx("max-w-[350px] break-words", {"line-through decoration-3 decoration-zinc-700": item.isChecked})
-    return (
-      <li key={index} className='mb-3'>
-        <label className="flex items-center space-x-3 cursor-pointer">
-          <input type="checkbox" name="item" className="form-checkbox h-5 w-5 accent-emerald-400 ms-3"
-          checked={item.isChecked}
-          onChange={() => handleCheck(item.id)}
-          />
-          <span className={className}>{item.name}</span>
-        </label>
-      </li>
+  function handleDelete(id) {
+    setList(prevList =>
+      prevList.filter(item =>
+        item.id !== id  
+      )
     )
-  })
-
+  }
 
   return (
     <main className='text-zinc-100'>
