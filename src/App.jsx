@@ -75,7 +75,7 @@ function App() {
 
       <section className='flex flex-col mt-7 mx-auto border-2 border-solid rounded-lg border-zinc-700 max-w-[500px] text-zinc-100'>
         <h2 className='text-5xl mb-2 ms-3 flex justify-center'>Your List</h2>
-        {list.length = 0 && <p className='text-center text-zinc-400 tracking-tighter font-medium mb-5'>List is empty...</p>}
+        {list.length <= 0 && <p className='text-center text-zinc-400 tracking-tighter font-medium mb-5'>List is empty... </p>}
         <ul className='space-y-5'>
           {listElement}
         </ul>
